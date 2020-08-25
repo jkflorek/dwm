@@ -41,19 +41,23 @@ static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] 
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 
-#include "fibonacci.c"
+#include "layouts.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
 	{ "TTT",      bstack },
-	{ "===",      bstackhoriz },
-	{ "|M|",      centeredmaster },
-	{ ">M>",      centeredfloatingmaster },
-	{ "[D]",      deck },
+
 	{ "[@]",      spiral },
 	{ "[\\]",      dwindle },
+
+	{ "[D]",      deck },
+	{ "[M]",      monocle },
+
+	{ "|M|",      centeredmaster },
+	{ ">M>",      centeredfloatingmaster },
+
+	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ NULL,       NULL },
 };
 
 /* key definitions */
@@ -102,16 +106,15 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY|ShiftMask,             XK_u,      setlayout,      {.v = &layouts[4]} },
-	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[5]} },
-	{ MODKEY|ShiftMask,             XK_o,      setlayout,      {.v = &layouts[6]} },
-	{ MODKEY,                       XK_c,      setlayout,      {.v = &layouts[7]} },
-	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[8]} },
-	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[9]} },
+	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} }, /* tile */
+	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[1]} }, /* bstack */
+	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[2]} }, /* spiral */
+	{ MODKEY|ShiftMask,             XK_y,      setlayout,      {.v = &layouts[3]} }, /* dwindle */
+	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[4]} }, /* deck */
+	{ MODKEY|ShiftMask,             XK_u,      setlayout,      {.v = &layouts[5]} }, /* monocle */
+	{ MODKEY,                       XK_i,      setlayout,      {.v = &layouts[6]} }, /* centeredmaster */
+	{ MODKEY|ShiftMask,             XK_i,      setlayout,      {.v = &layouts[7]} }, /* centeredfloatingmaster */
+	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[8]} }, /* floating */
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
